@@ -1,3 +1,6 @@
 # LVGL
 
-Place the selected LVGL version or integration wrapper here.
+这里保存选定的 LVGL 版本和显示、输入设备适配代码。
+
+显示和触摸硬件引脚应通过平台 `board_config.h` 映射，不要写死在 LVGL
+移植文件中。

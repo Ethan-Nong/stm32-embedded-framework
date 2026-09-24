@@ -1,13 +1,14 @@
-# board
+# 板级抽象
 
-Common board implementation shared by every platform.
+这里保存所有平台共用的 board 实现。
 
-Each platform provides `board_config.h` with:
+每个平台通过 `board_config.h` 提供：
 
-- logical UART roles
-- SPI buses and chip-select pins
-- I2C, ADC and timer roles
-- status LED and key mapping
+- 调试串口和通信串口对应的逻辑角色
+- SPI 总线和片选引脚
+- I2C、ADC 和定时器角色
+- 状态灯和按键映射
 
-`board.c` reads those macros and exposes stable getter functions to drivers
-and application modules. A platform does not need its own copy of `board.c`.
+`board.c` 读取这些宏，并向驱动和应用提供稳定的配置访问接口。
+
+每块新板卡只增加 `board_config.h`，不需要复制 `board.c` 和 `board.h`。

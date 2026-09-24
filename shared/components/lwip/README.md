@@ -1,3 +1,6 @@
 # lwIP
 
-Place the selected lwIP source and network integration here.
+这里保存选定的 lwIP 源码和网络接口适配代码。
+
+MAC、PHY、DMA 和中断配置由对应平台 CubeMX 工程负责，项目代码通过统一
+接口使用网络功能。

@@ -1,3 +1,12 @@
-# control
+# 控制模块
 
-Reusable control-law and device orchestration modules belong here.
+这里保存可复用的控制算法和设备调度模块。
+
+适合放置的内容：
+
+- PID 控制
+- 状态机
+- 闭环控制
+- 多设备动作编排
+
+模块不能直接访问 HAL，也不能依赖某个具体项目。

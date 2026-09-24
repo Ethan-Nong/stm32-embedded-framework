@@ -1,3 +1,13 @@
-# protocol
+# 协议模块
 
-Reusable application protocol codecs and state machines belong here.
+这里保存可复用的应用协议编解码器和状态机。
+
+适合放置的内容：
+
+- 帧格式定义
+- 打包和解包
+- CRC 校验
+- 重传与确认
+- 通信状态机
+
+协议模块不直接依赖 UART、SPI 或网络硬件。

@@ -1,3 +1,6 @@
 # mbedTLS
 
-Place the selected mbedTLS source and configuration here.
+这里保存选定的 mbedTLS 源码和配置。
+
+证书、密钥和随机数硬件适配应通过独立配置管理，不能把私钥直接提交到
+公开仓库。

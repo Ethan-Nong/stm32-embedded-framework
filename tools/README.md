@@ -1,4 +1,12 @@
-# Tools
+# 工具
 
-Host-side utilities belong here. Keep protocol generators, serial monitors,
-packet parsers and test fixtures out of the firmware source tree.
+这里放运行在电脑上的辅助工具。
+
+例如：
+
+- 协议生成器
+- 串口监控工具
+- 数据包解析工具
+- 测试数据生成工具
+
+这些工具不应放入固件源码目录。

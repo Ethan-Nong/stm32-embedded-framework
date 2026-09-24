@@ -1,4 +1,4 @@
-# SPI device template
+# SPI 器件驱动模板
 
 该模板演示多个器件如何共享同一条 SPI 总线：
 

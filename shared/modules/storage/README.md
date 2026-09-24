@@ -1,3 +1,13 @@
-# storage
+# 存储模块
 
-Reusable configuration and data-storage orchestration modules belong here.
+这里保存可复用的配置管理和数据存储模块。
+
+适合放置的内容：
+
+- 配置区管理
+- 参数默认值和迁移
+- 数据记录
+- 掉电保护
+- 多存储介质调度
+
+底层读写通过 Flash、EEPROM 或文件系统驱动完成。

@@ -1,3 +1,6 @@
-# logger
+# 日志模块
 
-Reusable logging and diagnostic output modules belong here.
+这里保存可复用的日志和诊断输出模块。
+
+日志模块负责格式化、分级和输出调度，不负责选择具体 UART 引脚。串口资源
+应由平台 `board_config.h` 提供给项目。

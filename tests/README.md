@@ -1,4 +1,7 @@
-# Tests
+# 测试
 
-- `host/` contains tests that run on a PC.
-- `integration/` contains board, protocol and hardware integration tests.
+- `host/` 保存运行在电脑上的测试。
+- `integration/` 保存板卡、协议和硬件集成测试。
+
+PC 端测试优先覆盖纯算法和协议逻辑。硬件测试负责验证 GPIO、SPI、UART、
+中断和实际器件连接。

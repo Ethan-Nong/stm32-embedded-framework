@@ -1,3 +1,11 @@
-# common/src
+# 公共源码
 
-Place target-independent utility implementations here.
+这里保存与具体 MCU、HAL 和平台无关的公共工具实现。
+
+适合放置的内容：
+
+- CRC 和校验算法
+- 环形缓冲区
+- 位操作
+- 数据转换
+- 软件定时辅助功能

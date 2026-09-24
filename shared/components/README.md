@@ -1,4 +1,4 @@
-# components
+# 组件
 
 这里放第三方或大型可复用组件，例如 FreeRTOS、LVGL、lwIP、mbedTLS。
 
