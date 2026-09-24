@@ -1,0 +1,48 @@
+# Editors and system files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Codex and local work directories
+.codex_tmp/
+.codex-tmp/
+.conversation_doc_work/
+tmp/
+work/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Build output
+build/
+*.hex
+*.bin
+*.elf
+*.axf
+*.map
+*.o
+*.d
+*.crf
+*.dep
+*.lnp
+*.lst
+
+# Keil user state and generated output
+*.uvguix.*
+*.uvoptx
+*.bak
+JLinkLog.txt
+JLinkSettings.ini
+**/DebugConfig/
+**/RTE/
+**/MDK-ARM/*/
+**/MDK-ARM/*.htm
+**/MDK-ARM/*.log
+
+# Runtime captures
+*.log
+*.trace
+*.pcap
+*.pcapng

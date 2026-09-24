@@ -1,0 +1,11 @@
+{
+  "name": "project_b",
+  "platform": "stm32f407_devboard",
+  "app": "project_b",
+  "defines": [
+    "PROJECT_B=1"
+  ],
+  "modules": [],
+  "drivers": [],
+  "components": []
+}
