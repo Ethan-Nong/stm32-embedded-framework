@@ -1,0 +1,13 @@
+{
+  "name": "core_f407_seed_dev",
+  "platform": "core_f407_seed_dev",
+  "app": "ds211_demo",
+  "defines": [
+    "PROJECT_DS211_DEMO=1"
+  ],
+  "modules": [],
+  "drivers": [
+    "ds211"
+  ],
+  "components": []
+}
