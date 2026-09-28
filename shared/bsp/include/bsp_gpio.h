@@ -29,6 +29,8 @@ typedef enum
     BSP_GPIO_MODE_INPUT = 0,
     BSP_GPIO_MODE_OUTPUT_PUSH_PULL,
     BSP_GPIO_MODE_OUTPUT_OPEN_DRAIN,
+    BSP_GPIO_MODE_AF_PUSH_PULL,
+    BSP_GPIO_MODE_AF_OPEN_DRAIN,
     BSP_GPIO_MODE_ANALOG
 } bsp_gpio_mode_t;
 
@@ -72,5 +74,10 @@ void bsp_gpio_toggle(const bsp_gpio_t *gpio);
 /* 按 mode/pull/speed 配置 GPIO；gpio 或 config 无效时直接返回。 */
 void bsp_gpio_config(const bsp_gpio_t *gpio, const bsp_gpio_config_t *config);
 void bsp_gpio_config_input(const bsp_gpio_t *gpio);
+void bsp_gpio_config_alternate(const bsp_gpio_t *gpio,
+                               bsp_gpio_mode_t mode,
+                               bsp_gpio_pull_t pull,
+                               bsp_gpio_speed_t speed,
+                               uint8_t alternate_function);
 
 #endif

@@ -47,6 +47,7 @@ CubeMX + STM32 HAL
 stm32-embedded-framework/
 ├── app/
 │   ├── main/
+│   │   ├── app_interface.h
 │   │   ├── app_main.c
 │   │   └── app_main.h
 │   ├── project_a/
@@ -91,7 +92,7 @@ stm32-embedded-framework/
 │   │   ├── src/
 │   │   └── README.md
 │   ├── drivers/
-│   │   ├── spi_device_template/
+│   │   ├── ds211/
 │   │   └── README.md
 │   ├── modules/
 │   │   ├── control/
@@ -181,34 +182,49 @@ stm32-embedded-framework/
 
 ## 5. 应用入口机制
 
-`app/main/app_main.c` 是整个仓库唯一的公共入口：
+`app/main/app_main.c` 是整个仓库唯一的公共入口。它负责初始化 Board，
+获取项目选择的应用接口，并统一调用应用的 `init` 和 `loop`：
 
 ```c
-#include "app_main.h"
-
-#include "project_config.h"
-#include APP_HEADER
-
 void app_main_init(void)
 {
-    APP_INIT_FN();
+    board_init();
+    g_app = APP_INTERFACE_GET_FN();
+    g_app_init_status = g_app->init();
 }
 
 void app_main_loop(void)
 {
-    APP_LOOP_FN();
+    if (g_app_init_status == 0)
+    {
+        g_app->loop();
+    }
 }
 ```
 
-项目配置指定实际应用：
+每个应用导出统一接口：
 
 ```c
-#define APP_HEADER    "app_project_a.h"
-#define APP_INIT_FN   app_project_a_init
-#define APP_LOOP_FN   app_project_a_loop
+static const app_interface_t g_project_a_app = {
+    "project_a",
+    app_project_a_init,
+    app_project_a_loop
+};
+
+const app_interface_t *app_project_a_get_interface(void)
+{
+    return &g_project_a_app;
+}
 ```
 
-因此新增项目时不需要复制 `app_main.c/app_main.h`。
+项目配置只选择应用接口：
+
+```c
+#define APP_INTERFACE_GET_FN  app_project_a_get_interface
+```
+
+因此新增项目和驱动时不需要修改 `app_main.c`。驱动由具体应用初始化，
+`app_main` 不直接调用器件驱动。
 
 ## 6. 环境要求
 
@@ -332,7 +348,27 @@ platform/<平台名>/
 
 CubeMX 工程不需要复制到每个项目中。
 
-## 12. SPI 总线共享
+## 12. Board 接口与 SPI 总线共享
+
+Board 是板级接口资源的唯一入口：
+
+- `board_config.h` 描述逻辑接口、引脚、AF 和可用模式。
+- `board.c` 负责接口申请、释放、引脚冲突检测和模式切换。
+- BSP 负责 GPIO、UART、SPI 和 I2C 的底层收发。
+- 器件驱动只实现具体器件协议。
+
+应用通过接口 ID 和模式申请资源：
+
+```c
+if (board_interface_acquire(BOARD_INTERFACE_ID_SENSOR_I2C,
+                            BOARD_INTERFACE_MODE_I2C) == 0)
+{
+    const board_i2c_cfg_t *i2c = board_get_sensor_i2c_cfg();
+}
+```
+
+接口释放前，不能切换到其他模式。某个模式被占用时，其他接口不能使用
+相同引脚。
 
 多个器件可以共享同一条 SPI 总线，但每个器件必须有独立 CS：
 
@@ -397,6 +433,8 @@ git log --oneline -5
 - 一个固件组合对应一个 `projects/<name>`。
 - 一个应用功能对应一个 `app/<name>`。
 - 通用代码必须放入 `shared`。
+- SPI、I2C、UART 的板级引脚、AF、模式和复用统一由 `board` 管理。
+- 器件驱动不能直接操作 GPIO AF 或 CubeMX 句柄。
 - 不修改 CubeMX 生成文件中的非 USER CODE 区域。
 - 项目代码不直接依赖 HAL 句柄。
 - 并发访问共享 SPI 总线时必须使用总线锁。

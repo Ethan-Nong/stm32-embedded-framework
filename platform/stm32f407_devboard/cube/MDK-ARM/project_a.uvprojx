@@ -434,7 +434,8 @@
               <FileName>stm32f4xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f4xx_hal_msp.c</FilePath>
-            </File>            <File>
+            </File>
+            <File>
               <FileName>app_main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../../../app/main/app_main.c</FilePath>
@@ -509,16 +510,6 @@
               <FileType>1</FileType>
               <FilePath>../../../../shared/bsp/port/bsp_uart_port.c</FilePath>
             </File>
-
-
-
-
-
-
-
-
-
-
 
           </Files>
         </Group>

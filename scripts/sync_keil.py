@@ -228,7 +228,11 @@ def add_sources(text: str, sources: list[tuple[str, str]]) -> str:
     match = pattern.search(text)
     if match is None:
         raise ValueError("Application/User/Core group not found in uvprojx")
-    return text[: match.start("body")] + match.group("body") + nodes + text[match.start("tail") :]
+    body = match.group("body").rstrip()
+    if body:
+        body += "\n"
+    tail = re.sub(r"^\s*", "\n          ", match.group("tail"), count=1)
+    return text[: match.start("body")] + body + nodes + tail + text[match.end("tail") :]
 
 
 def main(argv: list[str]) -> int:

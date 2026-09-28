@@ -114,6 +114,12 @@ static int bsp_gpio_resolve_mode(bsp_gpio_mode_t mode, uint32_t *hal_mode)
     case BSP_GPIO_MODE_OUTPUT_OPEN_DRAIN:
         *hal_mode = GPIO_MODE_OUTPUT_OD;
         return 0;
+    case BSP_GPIO_MODE_AF_PUSH_PULL:
+        *hal_mode = GPIO_MODE_AF_PP;
+        return 0;
+    case BSP_GPIO_MODE_AF_OPEN_DRAIN:
+        *hal_mode = GPIO_MODE_AF_OD;
+        return 0;
     case BSP_GPIO_MODE_ANALOG:
         *hal_mode = GPIO_MODE_ANALOG;
         return 0;
@@ -265,6 +271,41 @@ void bsp_gpio_config_input(const bsp_gpio_t *gpio)
     };
 
     bsp_gpio_config(gpio, &config);
+}
+
+void bsp_gpio_config_alternate(const bsp_gpio_t *gpio,
+                               bsp_gpio_mode_t mode,
+                               bsp_gpio_pull_t pull,
+                               bsp_gpio_speed_t speed,
+                               uint8_t alternate_function)
+{
+    GPIO_TypeDef *port;
+    GPIO_InitTypeDef init = { 0 };
+
+    if ((gpio == 0) ||
+        ((mode != BSP_GPIO_MODE_AF_PUSH_PULL) &&
+         (mode != BSP_GPIO_MODE_AF_OPEN_DRAIN)))
+    {
+        return;
+    }
+
+    port = bsp_gpio_resolve_port(gpio->port);
+    if (port == 0)
+    {
+        return;
+    }
+
+    if ((bsp_gpio_resolve_mode(mode, &init.Mode) != 0) ||
+        (bsp_gpio_resolve_pull(pull, &init.Pull) != 0) ||
+        (bsp_gpio_resolve_speed(speed, &init.Speed) != 0))
+    {
+        return;
+    }
+
+    bsp_gpio_enable_port_clock(gpio->port);
+    init.Pin = gpio->pin;
+    init.Alternate = alternate_function;
+    HAL_GPIO_Init(port, &init);
 }
 
 #endif

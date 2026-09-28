@@ -11,13 +11,26 @@ static const board_spi_cfg_t *g_shared_spi;
 static const board_uart_cfg_t *g_debug_uart;
 static const board_led_cfg_t *g_status_led;
 
-void app_project_a_init(void)
+static const app_interface_t g_project_a_app = {
+    "project_a",
+    app_project_a_init,
+    app_project_a_loop
+};
+
+int app_project_a_init(void)
 {
     static const char boot_message[] = "[project_a] init\r\n";
 
-    board_init();
-    g_shared_spi = board_get_storage_spi_cfg();
-    g_debug_uart = board_get_debug_uart_cfg();
+    if (board_interface_acquire(BOARD_INTERFACE_ID_DEBUG_UART,
+                                BOARD_INTERFACE_MODE_UART) == 0)
+    {
+        g_debug_uart = board_get_debug_uart_cfg();
+    }
+    if (board_interface_acquire(BOARD_INTERFACE_ID_STORAGE_SPI,
+                                BOARD_INTERFACE_MODE_SPI) == 0)
+    {
+        g_shared_spi = board_get_storage_spi_cfg();
+    }
     g_status_led = board_get_status_led_cfg();
 
     if (g_shared_spi != 0)
@@ -34,6 +47,8 @@ void app_project_a_init(void)
                              boot_message,
                              (uint32_t)(sizeof(boot_message) - 1U));
     }
+
+    return 0;
 }
 
 void app_project_a_loop(void)
@@ -44,4 +59,9 @@ void app_project_a_loop(void)
     }
 
     bsp_delay_ms(500U);
+}
+
+const app_interface_t *app_project_a_get_interface(void)
+{
+    return &g_project_a_app;
 }
